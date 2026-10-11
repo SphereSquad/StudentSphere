@@ -1,0 +1,13 @@
+# Compiled files
+/build/
+/bin/
+
+# Temporary files and logs
+*.log
+
+# Local database credentials
+db.properties
+
+# Operating system files
+.DS_Store
+Thumbs.db
