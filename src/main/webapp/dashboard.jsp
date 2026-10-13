@@ -1,6 +1,5 @@
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.Connection,java.sql.PreparedStatement,java.sql.ResultSet" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="com.studentsphere.common.DMConnection" %>
@@ -29,8 +28,7 @@
 
     try (Connection con = DMConnection.getConnection();
          PreparedStatement ps = con.prepareStatement(
-             "SELECT branch, semester, cgpa, attendance " +
-             "FROM student_academics WHERE user_id = ?")) {
+             "SELECT branch, semester, cgpa, attendance FROM student_academics WHERE user_id = ?")) {
 
         ps.setInt(1, userId);
 
@@ -84,16 +82,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudentSphere | Dashboard</title>
 
+<link rel="stylesheet"
+      href="<%= ctx %>/css/theme.css">
+
 <style>
 * {
     box-sizing: border-box;
 }
 
+:root {
+    --bg: #f5f4fc;
+    --card: #ffffff;
+    --text: #272344;
+    --muted: #77758f;
+    --border: #e9e6f5;
+    --accent: #7058ee;
+    --soft: #efebff;
+}
+
+body.dark {
+    --bg: #111323;
+    --card: #1d2035;
+    --text: #f3f0ff;
+    --muted: #b8b5d0;
+    --border: #373750;
+    --accent: #a494ff;
+    --soft: #302b4b;
+}
+
 body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: #f6f7fc;
-    color: #252542;
+    background:
+        radial-gradient(ellipse at 85% 0%, #eee7ff, transparent 30%),
+        var(--bg);
+    color: var(--text);
+    transition: background .25s, color .25s;
+}
+
+body.dark {
+    background:
+        radial-gradient(ellipse at 85% 0%, #292345, transparent 30%),
+        var(--bg);
 }
 
 .layout {
@@ -102,9 +132,9 @@ body {
 }
 
 .sidebar {
-    width: 245px;
+    width: 248px;
     flex-shrink: 0;
-    background: #29264b;
+    background: linear-gradient(180deg, #29264b, #37305f);
     color: white;
     padding: 28px 18px;
     display: flex;
@@ -113,46 +143,53 @@ body {
 
 .brand {
     font-size: 23px;
-    font-weight: 750;
+    font-weight: 800;
+    letter-spacing: -.5px;
     margin: 0 0 38px 8px;
+    color: white;
 }
 
 .brand span {
-    color: #c7b9ff;
+    color: #cbbfff;
 }
 
 .nav-title {
     color: #aaa6cb;
-    font-size: 11px;
-    letter-spacing: 1.5px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
     margin: 0 8px 12px;
 }
 
 .nav-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    color: #e4e1f4;
+    color: #e8e5fa;
     padding: 13px 12px;
     margin: 4px 0;
-    border-radius: 9px;
-    font-size: 14px;
+    border-radius: 11px;
+    font-size: 13px;
+    transition: .2s;
 }
 
-.nav-link.active,
-.nav-link:hover {
-    background: #514b7d;
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255,255,255,.15);
     color: white;
+    transform: translateX(2px);
 }
 
 .sidebar-bottom {
     margin-top: auto;
-    padding-top: 35px;
+    padding-top: 30px;
 }
 
 .main {
     flex: 1;
     min-width: 0;
-    padding: 30px 36px;
+    padding: 30px clamp(18px, 3vw, 42px);
 }
 
 .topbar {
@@ -160,51 +197,103 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 15px;
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
 .topbar h2 {
     margin: 0;
-    font-size: 24px;
+    font-size: 25px;
+    letter-spacing: -.5px;
 }
 
 .topbar p {
-    margin: 7px 0 0;
-    color: #77758d;
-    font-size: 14px;
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .profile {
-    background: white;
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    box-shadow: 0 3px 15px #26234b08;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 13px;
+    font-size: 13px;
+    box-shadow: 0 5px 18px #29264b08;
 }
 
 .profile a {
-    color: #6558c9;
+    color: var(--accent);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+.theme-toggle {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    padding: 10px 13px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent);
 }
 
 .welcome {
-    background: linear-gradient(115deg, #6658c9, #9685e8);
-    border-radius: 18px;
-    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(115deg, #5d4cc2, #8b78ec 72%, #ad9df5);
+    border-radius: 22px;
+    padding: 32px;
     color: white;
-    margin-bottom: 27px;
+    margin-bottom: 26px;
+    box-shadow: 0 15px 35px #6552c526;
+}
+
+.welcome:after {
+    content: "✦";
+    position: absolute;
+    font-size: 150px;
+    right: 34px;
+    top: -38px;
+    color: #ffffff19;
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    color: #e8e2ff;
+    margin-bottom: 12px;
 }
 
 .welcome h1 {
-    font-size: 27px;
+    position: relative;
+    z-index: 1;
+    font-size: clamp(24px, 3vw, 34px);
     margin: 0 0 10px;
+    letter-spacing: -.7px;
 }
 
 .welcome p {
+    position: relative;
+    z-index: 1;
     margin: 0;
+    max-width: 620px;
     line-height: 1.7;
     color: #f0edff;
+    font-size: 14px;
 }
 
 .section-heading {
@@ -212,26 +301,26 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    margin: 28px 0 16px;
+    margin: 28px 0 15px;
 }
 
 .section-heading h3 {
     margin: 0;
-    font-size: 19px;
+    font-size: 18px;
 }
 
 .section-heading span {
-    font-size: 13px;
-    color: #85829b;
+    font-size: 12px;
+    color: var(--muted);
 }
 
 .academic-panel {
-    background: linear-gradient(135deg, #ffffff, #faf7ff);
-    border: 1px solid #e9e3fb;
-    border-radius: 18px;
-    padding: 24px;
-    margin-bottom: 28px;
-    box-shadow: 0 7px 22px #29264b08;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 19px;
+    padding: 23px;
+    margin-bottom: 27px;
+    box-shadow: 0 9px 28px #29264b09;
 }
 
 .academic-header {
@@ -239,40 +328,36 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .academic-header h3 {
     margin: 0;
-    font-size: 19px;
+    font-size: 18px;
 }
 
 .edit-button {
     display: inline-block;
-    padding: 10px 14px;
-    background: #eeeaff;
-    color: #6550c7;
+    padding: 10px 13px;
+    background: var(--soft);
+    color: var(--accent);
     text-decoration: none;
     border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.edit-button:hover {
-    background: #e1d9ff;
+    font-size: 12px;
+    font-weight: 800;
 }
 
 .academic-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 13px;
+    gap: 12px;
 }
 
 .academic-item {
-    background: white;
-    border: 1px solid #eeebf8;
-    border-radius: 13px;
-    padding: 17px 15px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
     min-width: 0;
 }
 
@@ -282,29 +367,28 @@ body {
 }
 
 .academic-item .label {
-    font-size: 12px;
-    color: #85829b;
+    font-size: 11px;
+    color: var(--muted);
     margin-bottom: 7px;
 }
 
 .academic-item .value {
-    font-size: 18px;
-    font-weight: 750;
-    color: #332963;
+    font-size: 16px;
+    font-weight: 800;
     overflow-wrap: anywhere;
 }
 
 .progress-area {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    margin-top: 20px;
+    gap: 14px;
+    margin-top: 17px;
 }
 
 .progress-card {
-    background: white;
-    border: 1px solid #eeebf8;
-    padding: 17px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 16px;
     border-radius: 13px;
 }
 
@@ -312,17 +396,17 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 12px;
-    font-size: 13px;
+    margin-bottom: 11px;
+    font-size: 12px;
 }
 
 .progress-top strong {
-    color: #5141a5;
+    color: var(--accent);
 }
 
 .progress-track {
-    height: 9px;
-    background: #efedf6;
+    height: 8px;
+    background: var(--border);
     border-radius: 20px;
     overflow: hidden;
 }
@@ -338,41 +422,44 @@ body {
 }
 
 .academic-note {
-    font-size: 12px;
-    color: #85829b;
-    margin: 16px 0 0;
+    font-size: 11px;
+    color: var(--muted);
+    margin: 14px 0 0;
     line-height: 1.6;
 }
 
 .modules {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
 }
 
 .module {
-    background: white;
-    border: 1px solid #eeedf6;
-    border-radius: 15px;
-    padding: 23px;
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 21px;
     text-decoration: none;
-    color: inherit;
-    transition: transform .2s, box-shadow .2s;
+    color: var(--text);
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+    min-height: 190px;
 }
 
 .module:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px #29264b12;
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px #29264b12;
+    border-color: #c9bfff;
 }
 
 .module-icon {
-    width: 47px;
-    height: 47px;
+    width: 48px;
+    height: 48px;
     display: grid;
     place-items: center;
-    border-radius: 13px;
+    border-radius: 14px;
     font-size: 23px;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .purple { background: #eeeaff; }
@@ -383,63 +470,68 @@ body {
 .yellow { background: #fff7d9; }
 
 .module h4 {
-    margin: 0 0 9px;
-    font-size: 17px;
+    margin: 0 0 8px;
+    font-size: 15px;
 }
 
 .module p {
     margin: 0;
-    color: #7d7a92;
-    font-size: 13px;
-    line-height: 1.6;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
 }
 
 .open-label {
     display: inline-block;
-    color: #6558c9;
-    font-size: 13px;
-    font-weight: 650;
-    margin-top: 17px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 15px;
 }
 
 .notice {
-    background: white;
-    border: 1px solid #eeedf6;
-    border-radius: 14px;
-    padding: 20px;
-    color: #77758d;
-    line-height: 1.6;
-    font-size: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 18px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 13px;
 }
 
 .footer {
     text-align: center;
-    color: #9693a8;
-    font-size: 12px;
-    padding: 28px 0 5px;
+    color: var(--muted);
+    font-size: 11px;
+    padding: 27px 0 5px;
 }
 
-@media(max-width: 1050px) {
+@media(max-width:1100px) {
+    .modules {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .academic-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media(max-width: 850px) {
-    .sidebar { width: 190px; }
-    .main { padding: 22px; }
+@media(max-width:800px) {
+    .sidebar { width: 205px; }
+    .main { padding: 22px 18px; }
 }
 
-@media(max-width: 600px) {
+@media(max-width:620px) {
     .layout { display: block; }
     .sidebar { width: 100%; padding: 18px; }
     .brand { margin-bottom: 18px; }
     .sidebar-bottom { margin-top: 10px; padding-top: 0; }
-    .main { padding: 18px; }
-    .modules, .progress-area { grid-template-columns: 1fr; }
+    .main { padding: 18px 14px; }
     .topbar { align-items: flex-start; flex-direction: column; }
-    .welcome h1 { font-size: 23px; }
-    .academic-panel { padding: 17px; }
+    .modules, .progress-area { grid-template-columns: 1fr; }
+    .welcome { padding: 24px; }
+    .academic-panel { padding: 16px; }
+    .academic-header { align-items: flex-start; flex-direction: column; }
+    .section-heading { align-items: flex-start; flex-direction: column; }
 }
 </style>
 </head>
@@ -449,18 +541,17 @@ body {
 
     <aside class="sidebar">
         <div class="brand">Student<span>Sphere</span></div>
+        <div class="nav-title">YOUR WORKSPACE</div>
 
-        <div class="nav-title">WORKSPACE</div>
-
-        <a class="nav-link active" href="<%= ctx %>/dashboard.jsp">⌂ &nbsp; Dashboard</a>
-        <a class="nav-link" href="<%= ctx %>/studyplanner">▣ &nbsp; Study Planner</a>
-        <a class="nav-link" href="<%= ctx %>/expensetracker">₹ &nbsp; Expense Tracker</a>
-        <a class="nav-link" href="<%= ctx %>/events">✦ &nbsp; Campus Events</a>
-        <a class="nav-link" href="<%= ctx %>/clubs">♧ &nbsp; Clubs &amp; Community</a>
-        <a class="nav-link" href="<%= ctx %>/goals">🎯 &nbsp; Personal Goals</a>
+        <a class="nav-link active" href="<%= ctx %>/dashboard.jsp">⌂ <span>Dashboard</span></a>
+        <a class="nav-link" href="<%= ctx %>/studyplanner">▣ <span>Study Planner</span></a>
+        <a class="nav-link" href="<%= ctx %>/expensetracker">₹ <span>Expense Tracker</span></a>
+        <a class="nav-link" href="<%= ctx %>/events">✦ <span>Campus Events</span></a>
+        <a class="nav-link" href="<%= ctx %>/clubs">♧ <span>Clubs &amp; Community</span></a>
+        <a class="nav-link" href="<%= ctx %>/goals">🎯 <span>Personal Goals</span></a>
 
         <div class="sidebar-bottom">
-            <a class="nav-link" href="<%= ctx %>/logout">↪ &nbsp; Logout</a>
+            <a class="nav-link" href="<%= ctx %>/logout">↪ <span>Logout</span></a>
         </div>
     </aside>
 
@@ -471,17 +562,28 @@ body {
                 <h2>Dashboard</h2>
                 <p>Your personal student workspace</p>
             </div>
-            <div class="profile">
-                👋 <%= safeName %> &nbsp;|&nbsp;
-                <a href="<%= ctx %>/modules/profile/profile.jsp">My Profile</a>
+
+            <div class="top-actions">
+                <button type="button" class="theme-toggle"
+                        id="themeToggle"
+                        onclick="toggleStudentSphereTheme()">
+                    🌙 Dark Mode
+                </button>
+
+                <div class="profile">
+                    👋 <%= safeName %> &nbsp;|&nbsp;
+                    <a href="<%= ctx %>/modules/profile/profile.jsp">My Profile ↗</a>
+                </div>
             </div>
         </div>
 
         <section class="welcome">
+            <div class="eyebrow">Your campus · Your goals · Your growth</div>
             <h1>Welcome back, <%= safeName %>! ✨</h1>
             <p>
-                Organize your studies, manage your budget and discover
-                opportunities—all in one place.
+                Bring your student life together in one place. Organize your studies,
+                keep an eye on your academic progress, manage your budget and discover
+                campus opportunities.
             </p>
         </section>
 
@@ -556,7 +658,7 @@ body {
 
             <p class="academic-note">
                 These values come from your saved academic details.
-                Update them using the Edit Academic Details button.
+                Update them anytime using Edit Academic Details.
             </p>
         </section>
 
@@ -571,42 +673,42 @@ body {
                 <div class="module-icon purple">📚</div>
                 <h4>Study Planner</h4>
                 <p>Organize assignments, plan study sessions and keep track of deadlines.</p>
-                <span class="open-label">Explore module →</span>
+                <span class="open-label">Open module →</span>
             </a>
 
             <a class="module" href="<%= ctx %>/expensetracker">
                 <div class="module-icon pink">💰</div>
                 <h4>Expense Tracker</h4>
                 <p>Record daily spending, set monthly budgets and understand your expenses.</p>
-                <span class="open-label">Explore module →</span>
+                <span class="open-label">Open module →</span>
             </a>
 
             <a class="module" href="<%= ctx %>/events">
                 <div class="module-icon blue">🎓</div>
                 <h4>Campus Events</h4>
-                <p>Explore hackathons, seminars, workshops and other student opportunities.</p>
-                <span class="open-label">Explore module →</span>
+                <p>Explore hackathons, seminars, workshops and student opportunities.</p>
+                <span class="open-label">Open module →</span>
             </a>
 
             <a class="module" href="<%= ctx %>/clubs">
                 <div class="module-icon green">🤝</div>
                 <h4>Clubs &amp; Community</h4>
                 <p>Discover clubs, student communities and their announcements.</p>
-                <span class="open-label">Explore module →</span>
+                <span class="open-label">Open module →</span>
             </a>
 
             <a class="module" href="<%= ctx %>/goals">
                 <div class="module-icon orange">🎯</div>
                 <h4>Personal Goals</h4>
-                <p>Set your goals and track your progress throughout the semester.</p>
-                <span class="open-label">Explore module →</span>
+                <p>Set goals and track your progress throughout the semester.</p>
+                <span class="open-label">Open module →</span>
             </a>
 
             <a class="module" href="<%= ctx %>/modules/profile/profile.jsp">
                 <div class="module-icon yellow">👤</div>
                 <h4>My Profile</h4>
-                <p>View your account, academic details and manage your student profile.</p>
-                <span class="open-label">Explore module →</span>
+                <p>Manage your account, academic details and student profile.</p>
+                <span class="open-label">Open module →</span>
             </a>
 
         </section>
@@ -616,16 +718,48 @@ body {
         </div>
 
         <div class="notice">
-            Your dashboard is your personal space. Your academic overview
-            displays the information you have saved. Explore the modules to
-            manage your studies, spending, goals and campus activities.
+            Your dashboard is your personal space. Your academic overview displays
+            the information you have saved. Explore the modules to manage your studies,
+            spending, goals and campus activities.
         </div>
 
         <div class="footer">
-            StudentSphere · Your campus, organized your way.
+            StudentSphere · Your campus, organized your way 💜
         </div>
 
     </main>
 </div>
+
+<script src="<%= ctx %>/js/theme.js"></script>
+<script>
+(function () {
+    const key = "studentsphere-theme";
+    const button = document.getElementById("themeToggle");
+
+    function applyTheme() {
+        let theme = "light";
+        try {
+            theme = localStorage.getItem(key) || "light";
+        } catch (e) {}
+
+        document.body.classList.toggle("dark", theme === "dark");
+
+        if (button) {
+            button.textContent = theme === "dark"
+                ? "☀️ Light Mode" : "🌙 Dark Mode";
+        }
+    }
+
+    window.toggleStudentSphereTheme = function () {
+        const dark = !document.body.classList.contains("dark");
+        try {
+            localStorage.setItem(key, dark ? "dark" : "light");
+        } catch (e) {}
+        applyTheme();
+    };
+
+    applyTheme();
+})();
+</script>
 </body>
 </html>

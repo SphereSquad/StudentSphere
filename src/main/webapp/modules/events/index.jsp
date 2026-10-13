@@ -337,6 +337,8 @@ footer { text-align: center; color: var(--muted); padding: 24px; font-size: 13px
     .search-row { flex-direction: column; }
 }
 </style>
+<link rel="stylesheet"
+      href="<%= request.getContextPath() %>/css/theme.css">
 </head>
 
 <body>
@@ -665,6 +667,6 @@ dateInput.min = today.getFullYear() + "-"
     + String(today.getMonth() + 1).padStart(2, "0") + "-"
     + String(today.getDate()).padStart(2, "0");
 </script>
-
+<script src="<%= request.getContextPath() %>/js/theme.js"></script>
 </body>
 </html>

@@ -539,6 +539,8 @@ body.dark .donut::before { background: var(--surface-solid); }
     .transaction-amount { font-size: 12px; }
 }
 </style>
+<link rel="stylesheet"
+      href="<%= request.getContextPath() %>/css/theme.css">
 </head>
 
 <body>
@@ -969,5 +971,6 @@ body.dark .donut::before { background: var(--surface-solid); }
     });
 })();
 </script>
+<script src="<%= request.getContextPath() %>/js/theme.js"></script>
 </body>
 </html>

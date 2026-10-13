@@ -1,0 +1,213 @@
+
+:root {
+    --app-bg: #f4f3fc;
+    --app-card: #ffffff;
+    --app-text: #282443;
+    --app-muted: #77758f;
+    --app-border: #e8e5f4;
+    --app-primary: #7058ee;
+    --app-soft: #efebff;
+}
+
+body.dark {
+    --app-bg: #111323;
+    --app-card: #1d2035;
+    --app-text: #f2efff;
+    --app-muted: #b5b4cc;
+    --app-border: #353750;
+    --app-primary: #a494ff;
+    --app-soft: #302b4b;
+}
+
+body {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+    transition: background-color .25s, color .25s;
+}
+
+/* Common page surfaces */
+body.dark .module,
+body.dark .card,
+body.dark .profile,
+body.dark .notice,
+body.dark .goal-card,
+body.dark .announcement,
+body.dark .club-card,
+body.dark .stat,
+body.dark .form-card,
+body.dark .panel {
+    background-color: var(--app-card) !important;
+    color: var(--app-text) !important;
+    border-color: var(--app-border) !important;
+}
+
+/* Common text and form fields */
+body.dark p,
+body.dark small,
+body.dark label,
+body.dark .muted {
+    color: var(--app-muted);
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background-color: var(--app-card);
+    color: var(--app-text);
+    border-color: var(--app-border);
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: var(--app-muted);
+}
+
+body.dark a {
+    color: inherit;
+}
+
+body.dark {
+    color-scheme: dark;
+}
+
+/* Common dark mode for StudentSphere modules */
+body.dark {
+    background: #151323 !important;
+    color: #f1edff !important;
+}
+
+body.dark header,
+body.dark nav {
+    background: #211d35 !important;
+    color: #f1edff !important;
+    border-color: #39314f !important;
+}
+
+body.dark .card,
+body.dark section.card,
+body.dark .container .card {
+    background: #211d35 !important;
+    color: #f1edff !important;
+    border-color: #39314f !important;
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark p,
+body.dark label {
+    color: inherit;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background: #29243e !important;
+    color: #ffffff !important;
+    border-color: #494064 !important;
+}
+
+body.dark a {
+    color: #c8b8ff;
+}
+
+body.dark .skill,
+body.dark .skill-option,
+body.dark .quick-link {
+    background: #302849 !important;
+    color: #e8deff !important;
+    border-color: #494064 !important;
+}
+
+
+/* StudentSphere shared theme */
+
+body {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body.dark {
+    background-color: #151323;
+    color: #f1edff;
+}
+
+/* Common cards and panels */
+body.dark .card,
+body.dark .panel,
+body.dark .container-card,
+body.dark .stat {
+    background-color: #211d35;
+    color: #f1edff;
+    border-color: #39314f;
+}
+
+/* Headers and navigation */
+body.dark header,
+body.dark .topbar,
+body.dark nav {
+    background-color: #211d35;
+    color: #f1edff;
+    border-color: #39314f;
+}
+
+/* Text */
+body.dark p,
+body.dark label,
+body.dark small,
+body.dark .subtitle,
+body.dark .help-text {
+    color: #d0c8e8;
+}
+
+/* Form fields */
+body.dark input:not([type="checkbox"]):not([type="radio"]),
+body.dark select,
+body.dark textarea {
+    background-color: #29243e;
+    color: #f1edff;
+    border-color: #494064;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: #bcb4d5;
+}
+
+/* Tables */
+body.dark table,
+body.dark th,
+body.dark td {
+    border-color: #494064;
+}
+
+body.dark th {
+    background-color: #302849;
+    color: #f1edff;
+}
+
+body.dark td {
+    color: #e5def7;
+}
+
+/* Secondary buttons and links */
+body.dark .btn-light,
+body.dark .cancel,
+body.dark .reset {
+    background-color: #302849;
+    color: #e8deff;
+    border-color: #494064;
+}
+
+/* Skill tags and badges */
+body.dark .skill,
+body.dark .badge,
+body.dark .tag {
+    background-color: #302849;
+    color: #e8deff;
+    border-color: #494064;
+}
+
+/* Keep the theme button visible */
+#themeToggle {
+    cursor: pointer;
+}

@@ -624,6 +624,8 @@ body.dark .container::before {
 }
 
 </style>
+<link rel="stylesheet"
+      href="<%= request.getContextPath() %>/css/theme.css">
 </head>
 
 <body>
@@ -1057,5 +1059,6 @@ body.dark .container::before {
     renderTimer();
 })();
 </script>
+<script src="<%= request.getContextPath() %>/js/theme.js"></script>
 </body>
 </html>

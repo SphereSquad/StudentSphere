@@ -575,6 +575,8 @@ footer {
     }
 }
 </style>
+<link rel="stylesheet"
+      href="<%= request.getContextPath() %>/css/theme.css">
 </head>
 
 <body>
@@ -974,6 +976,6 @@ if (targetInput) {
         String(d.getDate()).padStart(2, "0");
 }
 </script>
-
+<script src="<%= request.getContextPath() %>/js/theme.js"></script>
 </body>
 </html>
