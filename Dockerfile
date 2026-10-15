@@ -1,11 +1,11 @@
 
-FROM tomcat:10.1-jdk21-temurin
+FROM tomcat:10.1-jdk25-temurin
 
-# Purane default web applications hatao
+# Remove default web applications
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# StudentSphere application deploy karo
+# Deploy StudentSphere as the root application
 COPY StudentSphere.war /usr/local/tomcat/webapps/ROOT.war
 
-# Render ke port par Tomcat start karo
+# Use the port provided by Render
 CMD ["sh", "-c", "sed -i 's/port=\"8080\"/port=\"${PORT:-8080}\"/' /usr/local/tomcat/conf/server.xml && catalina.sh run"]
