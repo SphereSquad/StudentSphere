@@ -1,3 +1,4 @@
+/* goal servlet code*/
 package com.studentsphere.goals;
 
 import java.io.IOException;
