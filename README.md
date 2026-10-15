@@ -567,6 +567,7 @@ Use the following section to access project documentation, presentations, resear
 | Resource | Link |
 |---|---|
 | GitHub Repository | [StudentSphere Source Code](https://github.com/Kashishjangid05/StudentSphere) |
+| Deploy Link | [Project Deploy Link](https://studentsphere-k4n9.onrender.com/) |
 | Project Report | [Project Report Link](https://docs.google.com/document/d/1fnPefXxq73QNwHfj8QZxtz9VTTMQwbld/edit?usp=drive_link&ouid=107818656015076912693&rtpof=true&sd=true) |
 | Research Paper | [Research Paper Link](https://docs.google.com/document/d/1lcJGLprPo1Yw35nVEHGukdwgwu4FSUoC/edit?usp=drive_link&ouid=107818656015076912693&rtpof=true&sd=true) |
 | Project SRS | [Project SRS Link](https://docs.google.com/document/d/1ug20eL2uurMPFvVbqkrZLJ8YuEbAg9ak/edit?usp=drive_link&ouid=107818656015076912693&rtpof=true&sd=true) |
